@@ -1,6 +1,6 @@
 import VideoList from './components/videoList/videoList';
 import SearchHeader from './components/searchHeader/searchHeader';
-import { useEffect, useState } from 'react'; 
+import { useCallback, useEffect, useState } from 'react'; 
 import styles from './app.module.css'
 import VideoDetail from './components/videoDetail/videoDetail';
 
@@ -9,14 +9,14 @@ function App({youtube}) {
   const [videos, setVideos] = useState([]);
   const [selectVideo, setSelectVideo] = useState(null);
   
-  const search = query => {
+  const search = useCallback( query => {
     youtube.search(query)
     .then(videos=> {
       setVideos(videos)
       setSelectVideo(null)
       }
     )
-  }
+  },[youtube])
    
   //컴포넌트가 마운트 되었을때 호출
   useEffect(()=>{
