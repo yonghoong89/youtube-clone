@@ -11,8 +11,10 @@ function App({youtube}) {
   
   const search = query => {
     youtube.search(query)
-    .then(videos=>
+    .then(videos=> {
       setVideos(videos)
+      setSelectVideo(null)
+      }
     )
   }
    
@@ -26,9 +28,7 @@ function App({youtube}) {
 
   const handleVideoClick = (video) =>{
     setSelectVideo(video)
-    console.log(video)
   }
-
 
   return (
     <div className={styles.app}>
