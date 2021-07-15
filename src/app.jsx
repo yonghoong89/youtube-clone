@@ -2,10 +2,12 @@ import VideoList from './components/videoList/videoList';
 import SearchHeader from './components/searchHeader/searchHeader';
 import { useEffect, useState } from 'react'; 
 import styles from './app.module.css'
+import VideoDetail from './components/videoDetail/videoDetail';
 
 function App({youtube}) {
   //인기영상 리스트
   const [videos, setVideos] = useState([]);
+  const [selectVideo, setSelectVideo] = useState(null);
   
   const search = query => {
     youtube.search(query)
@@ -22,11 +24,25 @@ function App({youtube}) {
     )
   },[])
 
+  const handleVideoClick = (video) =>{
+    setSelectVideo(video)
+    console.log(video)
+  }
+
 
   return (
     <div className={styles.app}>
       <SearchHeader onSearch={search} />
-      <VideoList videos={videos} />
+      <section className={styles.content}>
+        {selectVideo &&
+          <div className={styles.detail}>
+            <VideoDetail video={selectVideo} />
+          </div>
+        }
+        <div className={styles.list}>
+          <VideoList videos={videos} onVideoClick={handleVideoClick} display={selectVideo ? 'list': 'grid'} />
+        </div>
+      </section>
     </div>
   );
 }
